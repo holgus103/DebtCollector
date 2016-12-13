@@ -3,7 +3,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     tools:context=".activities.Contacts">
-    <item android:id="@+id/add_contact"        android:title="@string/add_contact" app:showAsAction="never"/>
     <item android:id="@+id/add_transaction"        android:title="@string/add_transaction" app:showAsAction="never"/>
     <item android:id="@+id/contacts"        android:title="@string/contacts" app:showAsAction="never"/>
     <item android:id="@+id/recent"        android:title="@string/recent"  app:showAsAction="never"/>

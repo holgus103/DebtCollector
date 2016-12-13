@@ -1,6 +1,5 @@
 <resources>
     <string name="app_name">Debt Collector</string>
-    <string name="add_contact">Add contact</string>
     <string name="add_transaction">Add transaction</string>
     <string name="contacts">Contacts</string>
     <string name="recent">Recent</string>
