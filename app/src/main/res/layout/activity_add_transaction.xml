@@ -31,6 +31,7 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:id="@+id/amountPanel"
         android:layout_below="@+id/contactSelect">
     <TextView
         android:layout_width="wrap_content"
@@ -47,7 +48,42 @@
         android:id="@+id/amountEditText"
         android:layout_alignParentEnd="true" />
     </RelativeLayout>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/amountPanel"
+        android:id="@+id/titlePanel">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/add_transaction_title"
+            android:id="@+id/titleTextView"
+            android:layout_alignParentStart="true" />
 
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:inputType="text"
+            android:ems="10"
+            android:id="@+id/titleEditText"
+            android:layout_alignParentEnd="true" />
+    </RelativeLayout>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/titlePanel"
+        android:text="@string/add_transaction_description"
+        android:id="@+id/descriptionTextView"
+        android:layout_alignParentStart="true" />
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="textMultiLine"
+        android:ems="10"
+        android:id="@+id/descriptionTextEdit"
+        android:layout_below="@+id/titlePanel"
+        android:layout_alignEnd="@+id/saveBtn"
+        android:layout_above="@+id/saveBtn" />
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -55,4 +91,6 @@
         android:id="@+id/saveBtn"
         android:layout_alignParentBottom="true"
         android:layout_alignParentEnd="true" />
+
+
 </RelativeLayout>

@@ -5,6 +5,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 import debtcollector.holgus103.debtcollector.db.tables.ContactsTable;
+import debtcollector.holgus103.debtcollector.db.tables.TransactionTable;
 
 /**
  * Created by Kuba on 13/12/2016.
@@ -21,10 +22,12 @@ public class DebtCollectorDBHelper extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         ContactsTable.create(db);
+        TransactionTable.create(db);
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         ContactsTable.drop(db);
+        TransactionTable.create(db);
     }
 }

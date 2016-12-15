@@ -7,4 +7,6 @@
     <string name="add_transation_contactSelectTextView">Contact</string>
     <string name="add_transaction_amountTextView">Amount:</string>
     <string name="add_transaction_saveBtn">Save</string>
+    <string name="add_transaction_description">Description</string>
+    <string name="add_transaction_title">Title</string>
 </resources>

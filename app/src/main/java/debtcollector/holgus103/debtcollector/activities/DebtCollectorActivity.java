@@ -6,6 +6,9 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.EditText;
+import android.widget.TextView;
 
 import java.sql.SQLData;
 
@@ -75,9 +78,19 @@ public abstract class DebtCollectorActivity extends AppCompatActivity implements
         return true;
     }
 
-    private void startActivity(Class<?> cls, int itemId) {
+    protected void startActivity(Class<?> cls, int itemId) {
         Intent intent = new Intent(this, cls);
         intent.putExtra(DebtCollectorActivity.SELECTED_MENU_ITEM_ID, itemId);
         this.startActivity(intent);
+    }
+
+    protected String getStringFromView(int id){
+        try{
+            TextView view = (TextView) this.findViewById(id);
+            return view.getText().toString();
+        }
+        catch(ClassCastException e){
+            return "";
+        }
     }
 }
