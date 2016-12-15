@@ -20,7 +20,7 @@ public class Recent extends DebtCollectorActivity {
         ListView listView = (ListView)this.findViewById(R.id.recentTransactionsListView);
         listView.setAdapter(new SimpleCursorAdapter(this,
                 R.layout.simple_list_item,
-                TransactionDao.getTransactions(database),
+                TransactionDao.getRecentTransactions(database),
                 new String[] {TransactionTable.TITLE, TransactionTable.AMOUNT},
                 new int[] {R.id.nameView, R.id.balanceView}
         ));

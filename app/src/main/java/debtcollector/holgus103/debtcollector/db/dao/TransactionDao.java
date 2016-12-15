@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
+import debtcollector.holgus103.debtcollector.db.tables.ContactsTable;
 import debtcollector.holgus103.debtcollector.db.tables.TransactionTable;
 
 /**
@@ -19,12 +20,18 @@ public class TransactionDao {
     String title;
     String description;
 
-    public static final Cursor getTransactions(SQLiteDatabase db){
+    private final void adjustBalance(SQLiteDatabase db){
+        db.execSQL("UPDATE " + ContactsTable.class.getSimpleName() +
+        " SET " + ContactsTable.BALANCE + " = " + ContactsTable.BALANCE + " - " + this.amount);
+    }
+
+    public static final Cursor getRecentTransactions(SQLiteDatabase db){
         return db.rawQuery("SELECT " +
-                TransactionTable.TRANSACTION_ID + " as _id, " +
+                TransactionTable.TRANSACTION_ID + " AS _id, " +
                 TransactionTable.AMOUNT + ", " +
                 TransactionTable.TITLE +
-                " FROM " + TransactionTable.class.getSimpleName(),
+                " FROM " + TransactionTable.class.getSimpleName() +
+                " LIMIT 30",
                 null
         );
     }
@@ -47,5 +54,6 @@ public class TransactionDao {
         values.put(TransactionTable.TITLE, this.title);
         values.put(TransactionTable.DESCRIPTION, this.description);
         long rowID = db.insert(TransactionTable.class.getSimpleName(), null, values);
+        adjustBalance(db);
     }
 }
