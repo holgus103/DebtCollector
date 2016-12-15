@@ -20,8 +20,13 @@ public class TransactionDao {
     String description;
 
     public static final Cursor getTransactions(SQLiteDatabase db){
-//        db.rawQuery("SELECT ")
-        return null;
+        return db.rawQuery("SELECT " +
+                TransactionTable.TRANSACTION_ID + " as _id, " +
+                TransactionTable.AMOUNT + ", " +
+                TransactionTable.TITLE +
+                " FROM " + TransactionTable.class.getSimpleName(),
+                null
+        );
     }
 
     public TransactionDao(String contactID, Double amount, Long dateAdded, Long dateClosed, String title, String description){
