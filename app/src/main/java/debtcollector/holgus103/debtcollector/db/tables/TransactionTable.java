@@ -13,6 +13,7 @@ public class TransactionTable {
     public static final String DATE_CLOSED = "DATE_CLOSED";
     public static final String TITLE = "TITLE";
     public static final String DESCRIPTION = "DESCRIPTION";
+    public static final String SETTLED = "SETTLED";
 
     public final static void create(SQLiteDatabase db){
         db.execSQL("CREATE TABLE " + TransactionTable.class.getSimpleName() + "(" +
@@ -23,6 +24,7 @@ public class TransactionTable {
             DATE_CLOSED + " INTEGER, " +
             TITLE + " TEXT, " +
             DESCRIPTION + " TEXT, " +
+            SETTLED + " BIT, " +
             "FOREIGN KEY(" + CONTACT_ID + ") REFERENCES " + ContactsTable.class.getSimpleName() + "(" + ContactsTable.CONTACT_ID + ")" +
                 ");"
 

@@ -12,6 +12,7 @@ import debtcollector.holgus103.debtcollector.db.tables.TransactionTable;
  * Created by Kuba on 15/12/2016.
  */
 public class TransactionDao {
+
     String contactID;
     Integer transactionID;
     Double amount;
@@ -19,11 +20,8 @@ public class TransactionDao {
     Long dateClosed;
     String title;
     String description;
+    Short settled;
 
-    private final void adjustBalance(SQLiteDatabase db){
-        db.execSQL("UPDATE " + ContactsTable.class.getSimpleName() +
-        " SET " + ContactsTable.BALANCE + " = " + ContactsTable.BALANCE + " - " + this.amount);
-    }
 
     public static final Cursor getRecentTransactions(SQLiteDatabase db){
         return db.rawQuery("SELECT " +
@@ -36,6 +34,13 @@ public class TransactionDao {
         );
     }
 
+    public final void markAsSettled(SQLiteDatabase db){
+        db.execSQL("UPDATE " + TransactionTable.class.getSimpleName() +
+        " SET " + TransactionTable.SETTLED + " = 1 " +
+        " WHERE " + TransactionTable.TRANSACTION_ID + " = " + this.transactionID);
+        ContactsDao.adjustBalance(db, this.amount, ContactsDao.BalanceAdjustment.Add);
+    }
+
     public TransactionDao(String contactID, Double amount, Long dateAdded, Long dateClosed, String title, String description){
         this.contactID = contactID;
         this.amount = amount;
@@ -45,6 +50,22 @@ public class TransactionDao {
         this.description = description;
 
     }
+
+    public TransactionDao(SQLiteDatabase db, int transactionID){
+        this.transactionID = transactionID;
+        Cursor cursor = db.rawQuery("SELECT * FROM " + TransactionTable.class.getSimpleName() +
+                " WHERE " + TransactionTable.TRANSACTION_ID + " = " + this.transactionID, null);
+        if(cursor.moveToFirst()){
+            this.contactID = cursor.getString(cursor.getColumnIndex(TransactionTable.CONTACT_ID));
+            this.amount = cursor.getDouble(cursor.getColumnIndex(TransactionTable.AMOUNT));
+            this.dateAdded = cursor.getLong(cursor.getColumnIndex(TransactionTable.DATE_ADDED));
+            this.dateClosed = cursor.getLong(cursor.getColumnIndex(TransactionTable.DATE_CLOSED));
+            this.title = cursor.getString(cursor.getColumnIndex(TransactionTable.TITLE));
+            this.description = cursor.getString(cursor.getColumnIndex(TransactionTable.DESCRIPTION));
+            this.settled = cursor.getShort(cursor.getColumnIndex(TransactionTable.SETTLED));
+        }
+    }
+
     public final void insert(SQLiteDatabase db){
         ContentValues values = new ContentValues();
         values.put(TransactionTable.CONTACT_ID, this.contactID);
@@ -53,7 +74,8 @@ public class TransactionDao {
         values.put(TransactionTable.DATE_CLOSED, this.dateClosed);
         values.put(TransactionTable.TITLE, this.title);
         values.put(TransactionTable.DESCRIPTION, this.description);
+        values.put(TransactionTable.SETTLED, 0);
         long rowID = db.insert(TransactionTable.class.getSimpleName(), null, values);
-        adjustBalance(db);
+        ContactsDao.adjustBalance(db, this.amount, ContactsDao.BalanceAdjustment.Substract);
     }
 }

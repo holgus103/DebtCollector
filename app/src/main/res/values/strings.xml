@@ -9,4 +9,7 @@
     <string name="add_transaction_saveBtn">Save</string>
     <string name="add_transaction_description">Description</string>
     <string name="add_transaction_title">Title</string>
+    <string name="debt_settled_message">Mark debts as settled?</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
 </resources>
