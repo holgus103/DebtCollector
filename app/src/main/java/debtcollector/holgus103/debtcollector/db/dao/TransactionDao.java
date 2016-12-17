@@ -27,18 +27,32 @@ public class TransactionDao {
         return db.rawQuery("SELECT " +
                 TransactionTable.TRANSACTION_ID + " AS _id, " +
                 TransactionTable.AMOUNT + ", " +
-                TransactionTable.TITLE +
+                TransactionTable.TITLE + ", " +
+                TransactionTable.SETTLED +
                 " FROM " + TransactionTable.class.getSimpleName() +
                 " LIMIT 30",
                 null
         );
     }
 
+    public static final boolean isSettled(Cursor cursor){
+        try{
+            return 1 == cursor.getShort(cursor.getColumnIndex(TransactionTable.SETTLED));
+
+        }
+        catch(Exception e){
+            return true;
+        }
+    }
+
     public final void markAsSettled(SQLiteDatabase db){
         db.execSQL("UPDATE " + TransactionTable.class.getSimpleName() +
         " SET " + TransactionTable.SETTLED + " = 1 " +
         " WHERE " + TransactionTable.TRANSACTION_ID + " = " + this.transactionID);
-        ContactsDao.adjustBalance(db, this.amount, ContactsDao.BalanceAdjustment.Add);
+        ContactsDao contact = new ContactsDao(db, this.contactID);
+        contact.adjustBalance(db, this.amount, ContactsDao.BalanceAdjustment.Add);
+        contact.update(db);
+
     }
 
     public TransactionDao(String contactID, Double amount, Long dateAdded, Long dateClosed, String title, String description){
@@ -76,6 +90,8 @@ public class TransactionDao {
         values.put(TransactionTable.DESCRIPTION, this.description);
         values.put(TransactionTable.SETTLED, 0);
         long rowID = db.insert(TransactionTable.class.getSimpleName(), null, values);
-        ContactsDao.adjustBalance(db, this.amount, ContactsDao.BalanceAdjustment.Substract);
+        ContactsDao contact = new ContactsDao(db, this.contactID);
+        contact.adjustBalance(db, this.amount, ContactsDao.BalanceAdjustment.Substract);
+        contact.update(db);
     }
 }

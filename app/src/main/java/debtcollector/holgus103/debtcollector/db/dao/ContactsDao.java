@@ -5,11 +5,16 @@ import android.database.sqlite.SQLiteDatabase;
 import android.widget.SimpleCursorAdapter;
 
 import debtcollector.holgus103.debtcollector.db.tables.ContactsTable;
+import debtcollector.holgus103.debtcollector.db.tables.TransactionTable;
 
 /**
  * Created by Kuba on 13/12/2016.
  */
 public final class ContactsDao {
+    private String contactID;
+    private Double balance;
+    private String displayName;
+
     public enum BalanceAdjustment{
         Substract,
         Add
@@ -23,13 +28,29 @@ public final class ContactsDao {
         }
     }
 
-    public static final void adjustBalance(SQLiteDatabase db, double amount, ContactsDao.BalanceAdjustment mode){
+    public final void adjustBalance(SQLiteDatabase db, double amount, ContactsDao.BalanceAdjustment mode){
 
-        char modeChar = mode == BalanceAdjustment.Add ? '+' : '-';
-        db.execSQL("UPDATE " + ContactsTable.class.getSimpleName() +
-                " SET " + ContactsTable.BALANCE + " = " + ContactsTable.BALANCE + modeChar + amount);
+        if(mode == BalanceAdjustment.Add)
+            this.balance += amount;
+        else
+            this.balance -= amount;
     }
 
+
+    public void update(SQLiteDatabase db){
+        db.execSQL("UPDATE " + ContactsTable.class.getSimpleName() + " SET " +
+                ContactsTable.BALANCE + " = " + this.balance + " " +
+                " WHERE " + ContactsTable.CONTACT_ID + " = " + this.contactID);
+
+    }
+    public ContactsDao(SQLiteDatabase db, String contactID){
+        this.contactID = contactID;
+        Cursor cursor = db.rawQuery("SELECT * FROM " + ContactsTable.class.getSimpleName() + " WHERE " + ContactsTable.CONTACT_ID + " = " + this.contactID, null);
+        if(cursor.moveToFirst()){
+            this.balance = cursor.getDouble(cursor.getColumnIndex(ContactsTable.BALANCE));
+            this.displayName = cursor.getString(cursor.getColumnIndex(ContactsTable.DISPLAY_NAME));
+        }
+    }
 
 
     public final static Cursor getContacts(SQLiteDatabase db){
