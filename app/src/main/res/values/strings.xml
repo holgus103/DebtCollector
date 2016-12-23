@@ -4,12 +4,16 @@
     <string name="contacts">Contacts</string>
     <string name="recent">Recent</string>
     <string name="archive">Archive</string>
-    <string name="add_transation_contactSelectTextView">Contact</string>
-    <string name="add_transaction_amountTextView">Amount:</string>
+    <string name="transation_contact">Contact</string>
+    <string name="transaction_amount">Amount:</string>
     <string name="add_transaction_saveBtn">Save</string>
-    <string name="add_transaction_description">Description</string>
-    <string name="add_transaction_title">Title</string>
+    <string name="transaction_description">Description</string>
+    <string name="transaction_title">Title</string>
     <string name="debt_settled_message">Mark debts as settled?</string>
     <string name="yes">Yes</string>
     <string name="no">No</string>
+    <string name="title_activity_contact_details">ContactDetails</string>
+    <string name="transaction_status">Status:</string>
+    <string name="transaction_created">Created on:</string>
+    <string name="transaction_closed">Settled on:</string>
 </resources>

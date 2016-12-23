@@ -6,11 +6,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.EditText;
 import android.widget.TextView;
-
-import java.sql.SQLData;
 
 import debtcollector.holgus103.debtcollector.R;
 import debtcollector.holgus103.debtcollector.db.DebtCollectorDBHelper;
@@ -19,7 +15,7 @@ import debtcollector.holgus103.debtcollector.db.DebtCollectorDBHelper;
  * Created by Kuba on 13/12/2016.
  */
 public abstract class DebtCollectorActivity extends AppCompatActivity implements MenuItem.OnMenuItemClickListener{
-    private static final String SELECTED_MENU_ITEM_ID = "SELECTED_MENU_ITEM_ID";
+    protected static final String ITEM_ID = "ITEM_ID";
     protected static SQLiteDatabase database = null;
     private int selectedMenuItem;
 
@@ -31,7 +27,7 @@ public abstract class DebtCollectorActivity extends AppCompatActivity implements
             database = new DebtCollectorDBHelper(this).getWritableDatabase();
         }
         if(bundle != null) {
-            this.selectedMenuItem = bundle.getInt(DebtCollectorActivity.SELECTED_MENU_ITEM_ID);
+            this.selectedMenuItem = bundle.getInt(DebtCollectorActivity.ITEM_ID);
         }
         else{
             this.selectedMenuItem = R.id.contacts;
@@ -83,7 +79,7 @@ public abstract class DebtCollectorActivity extends AppCompatActivity implements
     }
     protected void startActivity(Class<?> cls, int itemId) {
         Intent intent = new Intent(this, cls);
-        intent.putExtra(DebtCollectorActivity.SELECTED_MENU_ITEM_ID, itemId);
+        intent.putExtra(DebtCollectorActivity.ITEM_ID, itemId);
         this.startActivity(intent);
     }
 

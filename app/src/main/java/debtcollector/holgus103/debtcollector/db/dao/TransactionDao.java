@@ -13,14 +13,16 @@ import debtcollector.holgus103.debtcollector.db.tables.TransactionTable;
  */
 public class TransactionDao {
 
-    String contactID;
-    Integer transactionID;
-    Double amount;
-    Long dateAdded;
-    Long dateClosed;
-    String title;
-    String description;
-    Short settled;
+    private final static String TRANSACTION_SETTLED = "Settled";
+    private final static String TRANSACTION_NOT_SETTLED = "Unsettled";
+    private String contactID;
+    private Integer transactionID;
+    private Double amount;
+    private Long dateAdded;
+    private Long dateClosed;
+    private String title;
+    private String description;
+    private Short settled;
 
 
     public static final Cursor getRecentTransactions(SQLiteDatabase db){
@@ -107,5 +109,37 @@ public class TransactionDao {
         ContactsDao contact = new ContactsDao(db, this.contactID);
         contact.adjustBalance(db, this.amount, ContactsDao.BalanceAdjustment.Substract);
         contact.update(db);
+    }
+
+    public String getSettled() {
+         return settled == 1 ? TransactionDao.TRANSACTION_SETTLED : TransactionDao.TRANSACTION_NOT_SETTLED;
+    }
+
+    public String getContactID() {
+        return contactID;
+    }
+
+    public Integer getTransactionID() {
+        return transactionID;
+    }
+
+    public Double getAmount() {
+        return amount;
+    }
+
+    public Long getDateAdded() {
+        return dateAdded;
+    }
+
+    public Long getDateClosed() {
+        return dateClosed;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public String getDescription() {
+        return description;
     }
 }
