@@ -30,7 +30,21 @@ public class TransactionDao {
                 TransactionTable.TITLE + ", " +
                 TransactionTable.SETTLED +
                 " FROM " + TransactionTable.class.getSimpleName() +
+                " WHERE " + TransactionTable.SETTLED + " != 1 " +
                 " LIMIT 30",
+                null
+        );
+    }
+
+    public static final Cursor getResolvedTransactions(SQLiteDatabase db){
+        return db.rawQuery("SELECT " +
+                        TransactionTable.TRANSACTION_ID + " AS _id, " +
+                        TransactionTable.AMOUNT + ", " +
+                        TransactionTable.TITLE + ", " +
+                        TransactionTable.SETTLED +
+                        " FROM " + TransactionTable.class.getSimpleName() +
+                        " WHERE " + TransactionTable.SETTLED + " = 1 " +
+                        " LIMIT 30",
                 null
         );
     }

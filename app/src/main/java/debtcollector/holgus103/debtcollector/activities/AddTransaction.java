@@ -81,6 +81,7 @@ public class AddTransaction extends DebtCollectorActivity {
                         AddTransaction.this.getStringFromView(R.id.descriptionTextEdit)
                 );
                 transaction.insert(database);
+                AddTransaction.this.startActivity(Recent.class);
             }
         });
     }

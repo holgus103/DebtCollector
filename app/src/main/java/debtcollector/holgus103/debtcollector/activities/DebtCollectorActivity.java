@@ -77,7 +77,10 @@ public abstract class DebtCollectorActivity extends AppCompatActivity implements
         }
         return true;
     }
-
+    protected void startActivity(Class<?> cls){
+        Intent intent = new Intent(this, cls);
+        this.startActivity(intent);
+    }
     protected void startActivity(Class<?> cls, int itemId) {
         Intent intent = new Intent(this, cls);
         intent.putExtra(DebtCollectorActivity.SELECTED_MENU_ITEM_ID, itemId);

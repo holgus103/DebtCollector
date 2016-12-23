@@ -50,6 +50,8 @@ public class Recent extends DebtCollectorActivity implements DebtSettledDialog.I
         TransactionDao transaction = new TransactionDao(database, this.clickedTransactionID);
         transaction.markAsSettled(database);
         this.settledTransactions.add(this.clickedTransactionID);
+        this.adapter.getCursor().requery();
+        this.adapter.notifyDataSetChanged();
     }
 
     @Override

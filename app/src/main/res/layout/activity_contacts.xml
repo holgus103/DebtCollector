@@ -9,11 +9,12 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context=".activities.Contacts">
 
-
     <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
         android:text="+"
+        android:textColor="@color/colorWhite"
+        android:background="@drawable/round_button"
         android:id="@+id/add_contact_btn"
         android:layout_alignParentBottom="true"
         android:layout_alignParentEnd="true"
