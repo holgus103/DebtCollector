@@ -33,7 +33,7 @@ public class AddTransaction extends DebtCollectorActivity {
         this.adapter = new SimpleCursorAdapter(
                 this,
                 R.layout.dropdown_item,
-                ContactsDao.getContacts(database),
+                ContactsDao.getContacts(),
                 new String[] {ContactsTable.DISPLAY_NAME},
                 new int[] {R.id.nameView}
         );
@@ -78,7 +78,7 @@ public class AddTransaction extends DebtCollectorActivity {
                         title,
                         AddTransaction.this.getStringFromView(R.id.descriptionTextEdit)
                 );
-                transaction.insert(database);
+                transaction.insert();
                 AddTransaction.this.startActivity(Recent.class);
             }
         });

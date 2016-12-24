@@ -17,16 +17,13 @@ import debtcollector.holgus103.debtcollector.db.DebtCollectorDBHelper;
 public abstract class DebtCollectorActivity extends AppCompatActivity implements MenuItem.OnMenuItemClickListener{
     protected static final String ITEM_ID = "ITEM_ID";
     protected static final String STRING_ID = "STRING_ID";
-    protected static SQLiteDatabase database = null;
     private int selectedMenuItem;
 
     @Override
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         Bundle bundle = getIntent().getExtras();
-        if(database == null){
-            database = new DebtCollectorDBHelper(this).getWritableDatabase();
-        }
+
         if(bundle != null) {
             this.selectedMenuItem = bundle.getInt(DebtCollectorActivity.ITEM_ID);
         }

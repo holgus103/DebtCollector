@@ -29,7 +29,7 @@ public class Contacts extends DebtCollectorActivity implements AdapterView.OnIte
     }
 
     private void loadContacts() {
-        Cursor cursor = ContactsDao.getContacts(database);
+        Cursor cursor = ContactsDao.getContacts();
         listView.setAdapter( new SimpleCursorAdapter(this,
                 R.layout.simple_list_item,
                 cursor,
@@ -49,11 +49,11 @@ public class Contacts extends DebtCollectorActivity implements AdapterView.OnIte
             if(resultCode == RESULT_OK){
                 Cursor cursor = getContentResolver().query(data.getData(), null, null, null, null);
                 if(cursor.moveToFirst()){
-                    ContentValues values = new ContentValues();
-                    values.put(ContactsTable.CONTACT_ID, cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts._ID)));
-                    values.put(ContactsTable.DISPLAY_NAME, cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME)));
-                    database.insert(ContactsTable.class.getSimpleName(), null, values);
-
+                    ContactsDao model = new ContactsDao(
+                            cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts._ID)),
+                            cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME))
+                    );
+                    model.insert();
                 }
                 this.loadContacts();
             }

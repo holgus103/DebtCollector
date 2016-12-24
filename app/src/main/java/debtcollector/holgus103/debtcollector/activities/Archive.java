@@ -24,7 +24,7 @@ public class Archive extends DebtCollectorActivity implements AdapterView.OnItem
         ListView listView = (ListView)this.findViewById(R.id.archivedTransactionsListView);
         this.adapter = new SimpleCursorAdapter(this,
                 R.layout.simple_list_item,
-                TransactionDao.getResolvedTransactions(database),
+                TransactionDao.getResolvedTransactions(),
                 new String[] {TransactionTable.TITLE, TransactionTable.AMOUNT},
                 new int[] {R.id.nameView, R.id.balanceView}
         );

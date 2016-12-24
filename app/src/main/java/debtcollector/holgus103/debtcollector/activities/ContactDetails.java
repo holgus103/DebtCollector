@@ -21,12 +21,12 @@ public class ContactDetails extends DebtCollectorActivity {
         setContentView(R.layout.activity_contact_details);
         Bundle bundle = this.getIntent().getExtras();
         String id = bundle.getString(DebtCollectorActivity.ITEM_ID);
-        ContactsDao model = new ContactsDao(database, id);
+        ContactsDao model = new ContactsDao(id);
         this.fillViewWithData(model);
         
         this.adapter = new SimpleCursorAdapter(this,
                 R.layout.simple_list_item,
-                TransactionDao.getUnsettledTransactionsForContactID(database, model.getContactID()),
+                TransactionDao.getUnsettledTransactionsForContactID(model.getContactID()),
                 new String[] {TransactionTable.TITLE, TransactionTable.AMOUNT},
                 new int[] {R.id.nameView, R.id.balanceView}
         );

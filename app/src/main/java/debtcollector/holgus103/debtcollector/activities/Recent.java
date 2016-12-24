@@ -35,7 +35,7 @@ public class Recent extends DebtCollectorActivity implements DebtSettledDialog.I
         ListView listView = (ListView)this.findViewById(R.id.recentTransactionsListView);
         this.adapter = new SimpleCursorAdapter(this,
                 R.layout.simple_list_item,
-                TransactionDao.getRecentTransactions(database),
+                TransactionDao.getRecentTransactions(),
                 new String[] {TransactionTable.TITLE, TransactionTable.AMOUNT},
                 new int[] {R.id.nameView, R.id.balanceView}
         );
@@ -47,8 +47,8 @@ public class Recent extends DebtCollectorActivity implements DebtSettledDialog.I
 
     @Override
     public void onSuccess(DialogInterface dialog, int which) {
-        TransactionDao transaction = new TransactionDao(database, this.clickedTransactionID);
-        transaction.markAsSettled(database);
+        TransactionDao transaction = new TransactionDao(this.clickedTransactionID);
+        transaction.markAsSettled();
         this.settledTransactions.add(this.clickedTransactionID);
         this.adapter.getCursor().requery();
         this.adapter.notifyDataSetChanged();

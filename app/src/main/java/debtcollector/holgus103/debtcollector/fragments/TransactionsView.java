@@ -1,6 +1,7 @@
 package debtcollector.holgus103.debtcollector.fragments;
 
 import android.app.Fragment;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
@@ -27,16 +28,13 @@ public class TransactionsView extends Fragment {
         return inflater.inflate(R.layout.transactions_view, container, false);
     }
 
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
-//        this.adapter = new SimpleCursorAdapter(this,
-//                R.layout.simple_list_item,
-//                TransactionDao.getRecentTransactions(database),
-//                new String[] {TransactionTable.TITLE, TransactionTable.AMOUNT},
-//                new int[] {R.id.nameView, R.id.balanceView}
-//        );
+    public void setCursor(Cursor cursor){
+        this.adapter = new SimpleCursorAdapter(getActivity(),
+                R.layout.simple_list_item,
+                cursor,
+                new String[] {TransactionTable.TITLE, TransactionTable.AMOUNT},
+                new int[] {R.id.nameView, R.id.balanceView}
+        );
 
         ListView listview = (ListView) this.getView().findViewById(R.id.transactionsView);
         listview.setAdapter(this.adapter);

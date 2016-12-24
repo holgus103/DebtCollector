@@ -11,7 +11,7 @@ import debtcollector.holgus103.debtcollector.db.tables.TransactionTable;
 /**
  * Created by Kuba on 15/12/2016.
  */
-public class TransactionDao {
+public class TransactionDao extends BaseDao {
 
     private final static String TRANSACTION_SETTLED = "Settled";
     private final static String TRANSACTION_NOT_SETTLED = "Unsettled";
@@ -24,8 +24,8 @@ public class TransactionDao {
     private String description;
     private Short settled;
 
-    public static final Cursor getUnsettledTransactionsForContactID(SQLiteDatabase db, String contactID){
-        return db.rawQuery("SELECT " +
+    public static final Cursor getUnsettledTransactionsForContactID(String contactID){
+        return getDatabase().rawQuery("SELECT " +
                 TransactionTable.TRANSACTION_ID + " AS _id, " +
                 TransactionTable.AMOUNT + ", " +
                 TransactionTable.TITLE + ", " +
@@ -37,8 +37,8 @@ public class TransactionDao {
         );
     }
 
-    public static final Cursor getRecentTransactions(SQLiteDatabase db){
-        return db.rawQuery("SELECT " +
+    public static final Cursor getRecentTransactions(){
+        return getDatabase().rawQuery("SELECT " +
                 TransactionTable.TRANSACTION_ID + " AS _id, " +
                 TransactionTable.AMOUNT + ", " +
                 TransactionTable.TITLE + ", " +
@@ -50,8 +50,8 @@ public class TransactionDao {
         );
     }
 
-    public static final Cursor getResolvedTransactions(SQLiteDatabase db){
-        return db.rawQuery("SELECT " +
+    public static final Cursor getResolvedTransactions(){
+        return getDatabase().rawQuery("SELECT " +
                         TransactionTable.TRANSACTION_ID + " AS _id, " +
                         TransactionTable.AMOUNT + ", " +
                         TransactionTable.TITLE + ", " +
@@ -73,16 +73,16 @@ public class TransactionDao {
         }
     }
 
-    public final void markAsSettled(SQLiteDatabase db){
+    public final void markAsSettled(){
         this.settled = 1;
         this.dateClosed = System.currentTimeMillis()/1000L;
-        db.execSQL("UPDATE " + TransactionTable.class.getSimpleName() +
+        getDatabase().execSQL("UPDATE " + TransactionTable.class.getSimpleName() +
         " SET " + TransactionTable.SETTLED + " = " + this.settled + ", " +
                 TransactionTable.DATE_CLOSED + " = " + this.dateClosed +
         " WHERE " + TransactionTable.TRANSACTION_ID + " = " + this.transactionID);
-        ContactsDao contact = new ContactsDao(db, this.contactID);
-        contact.adjustBalance(db, this.amount, ContactsDao.BalanceAdjustment.Add);
-        contact.update(db);
+        ContactsDao contact = new ContactsDao(this.contactID);
+        contact.adjustBalance(this.amount, ContactsDao.BalanceAdjustment.Add);
+        contact.update();
 
     }
 
@@ -95,9 +95,9 @@ public class TransactionDao {
 
     }
 
-    public TransactionDao(SQLiteDatabase db, int transactionID){
+    public TransactionDao(int transactionID){
         this.transactionID = transactionID;
-        Cursor cursor = db.rawQuery("SELECT * FROM " + TransactionTable.class.getSimpleName() +
+        Cursor cursor = getDatabase().rawQuery("SELECT * FROM " + TransactionTable.class.getSimpleName() +
                 " WHERE " + TransactionTable.TRANSACTION_ID + " = " + this.transactionID, null);
         if(cursor.moveToFirst()){
             this.contactID = cursor.getString(cursor.getColumnIndex(TransactionTable.CONTACT_ID));
@@ -110,7 +110,7 @@ public class TransactionDao {
         }
     }
 
-    public final void insert(SQLiteDatabase db){
+    public final void insert(){
         ContentValues values = new ContentValues();
         values.put(TransactionTable.CONTACT_ID, this.contactID);
         values.put(TransactionTable.AMOUNT, this.amount);
@@ -119,10 +119,10 @@ public class TransactionDao {
         values.put(TransactionTable.TITLE, this.title);
         values.put(TransactionTable.DESCRIPTION, this.description);
         values.put(TransactionTable.SETTLED, 0);
-        long rowID = db.insert(TransactionTable.class.getSimpleName(), null, values);
-        ContactsDao contact = new ContactsDao(db, this.contactID);
-        contact.adjustBalance(db, this.amount, ContactsDao.BalanceAdjustment.Substract);
-        contact.update(db);
+        long rowID = getDatabase().insert(TransactionTable.class.getSimpleName(), null, values);
+        ContactsDao contact = new ContactsDao(this.contactID);
+        contact.adjustBalance(this.amount, ContactsDao.BalanceAdjustment.Substract);
+        contact.update();
     }
 
     public String getSettled() {

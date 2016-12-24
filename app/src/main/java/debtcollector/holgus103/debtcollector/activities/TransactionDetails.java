@@ -18,7 +18,7 @@ public class TransactionDetails extends DebtCollectorActivity {
         setContentView(R.layout.activity_transaction_details);
         Bundle bundle = getIntent().getExtras();
         int id = bundle.getInt(DebtCollectorActivity.ITEM_ID);
-        TransactionDao model = new TransactionDao(database, id);
+        TransactionDao model = new TransactionDao(id);
 
         this.fillViewWithData(model);
     }
@@ -27,7 +27,7 @@ public class TransactionDetails extends DebtCollectorActivity {
         SimpleDateFormat format = new SimpleDateFormat(getString(R.string.date_format));
 
         this.fillTextView(R.id.transactionTitleTextView, model.getTitle());
-        ContactsDao contact = new ContactsDao(database, model.getContactID());
+        ContactsDao contact = new ContactsDao(model.getContactID());
         this.fillTextView(R.id.contactTextView, contact.getDisplayName());
         this.fillTextView(R.id.transactionAmountTextView, model.getAmount().toString());
         this.fillTextView(R.id.descriptionTextView, model.getDescription());
