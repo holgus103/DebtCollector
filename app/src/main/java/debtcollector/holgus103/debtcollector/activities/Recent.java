@@ -62,7 +62,7 @@ public class Recent extends DebtCollectorActivity implements DebtSettledDialog.I
             return;
         }
         DialogFragment fragment = new DebtSettledDialog();
-        fragment.show(this.getFragmentManager(),"JUDEPOWER");
+        fragment.show(this.getFragmentManager(), "RANDOMSTUFF");
 
     }
 }

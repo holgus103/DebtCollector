@@ -75,8 +75,6 @@ public class AddTransaction extends DebtCollectorActivity {
                 TransactionDao transaction = new TransactionDao(
                         AddTransaction.this.contactID,
                         amount,
-                        System.currentTimeMillis()/1000l,
-                        null,
                         title,
                         AddTransaction.this.getStringFromView(R.id.descriptionTextEdit)
                 );

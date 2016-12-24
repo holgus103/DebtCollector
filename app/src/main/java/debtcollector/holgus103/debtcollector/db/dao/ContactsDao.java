@@ -60,4 +60,16 @@ public final class ContactsDao {
                 null);
 
     }
+
+    public String getContactID() {
+        return contactID;
+    }
+
+    public Double getBalance() {
+        return balance;
+    }
+
+    public String getDisplayName() {
+        return displayName;
+    }
 }

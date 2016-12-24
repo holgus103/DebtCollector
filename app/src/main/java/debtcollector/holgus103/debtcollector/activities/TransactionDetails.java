@@ -6,7 +6,11 @@ import android.widget.TextView;
 
 import org.w3c.dom.Text;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 import debtcollector.holgus103.debtcollector.R;
+import debtcollector.holgus103.debtcollector.db.dao.ContactsDao;
 import debtcollector.holgus103.debtcollector.db.dao.TransactionDao;
 
 public class TransactionDetails extends DebtCollectorActivity {
@@ -18,18 +22,33 @@ public class TransactionDetails extends DebtCollectorActivity {
         Bundle bundle = getIntent().getExtras();
         int id = bundle.getInt(DebtCollectorActivity.ITEM_ID);
         TransactionDao model = new TransactionDao(database, id);
+
         this.fillViewWithData(model);
     }
 
     private void fillViewWithData(TransactionDao model){
-        this.fillTextView(R.id.transactionTitleTextView, model.getTitle());
+        SimpleDateFormat format = new SimpleDateFormat(getString(R.string.date_format));
 
-        this.fillTextView(R.id.contactTextView, model.getContactID());
+        this.fillTextView(R.id.transactionTitleTextView, model.getTitle());
+        ContactsDao contact = new ContactsDao(database, model.getContactID());
+        this.fillTextView(R.id.contactTextView, contact.getDisplayName());
         this.fillTextView(R.id.transactionAmountTextView, model.getAmount().toString());
         this.fillTextView(R.id.descriptionTextView, model.getDescription());
-        this.fillTextView(R.id.addedTextView, model.getDateAdded().toString());
-        this.fillTextView(R.id.closedTextView, model.getDateClosed().toString());
         this.fillTextView(R.id.statusTextView, model.getSettled());
+        // convert Unix timestamp to date
+        this.fillTextView(R.id.addedTextView,
+                format.format(
+                        new Date(model.getDateAdded() * 1000L)
+                )
+        );
+
+        this.fillTextView(R.id.closedTextView,
+                format.format(
+                    new Date(model.getDateClosed() * 1000L)
+                )
+        );
+
+
     }
 
     private void fillTextView(int id, String text){

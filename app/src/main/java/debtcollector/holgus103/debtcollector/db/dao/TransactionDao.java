@@ -62,8 +62,11 @@ public class TransactionDao {
     }
 
     public final void markAsSettled(SQLiteDatabase db){
+        this.settled = 1;
+        this.dateClosed = System.currentTimeMillis()/1000L;
         db.execSQL("UPDATE " + TransactionTable.class.getSimpleName() +
-        " SET " + TransactionTable.SETTLED + " = 1 " +
+        " SET " + TransactionTable.SETTLED + " = " + this.settled + ", " +
+                TransactionTable.DATE_CLOSED + " = " + this.dateClosed +
         " WHERE " + TransactionTable.TRANSACTION_ID + " = " + this.transactionID);
         ContactsDao contact = new ContactsDao(db, this.contactID);
         contact.adjustBalance(db, this.amount, ContactsDao.BalanceAdjustment.Add);
@@ -71,11 +74,10 @@ public class TransactionDao {
 
     }
 
-    public TransactionDao(String contactID, Double amount, Long dateAdded, Long dateClosed, String title, String description){
+    public TransactionDao(String contactID, Double amount, String title, String description){
         this.contactID = contactID;
         this.amount = amount;
-        this.dateAdded = dateAdded;
-        this.dateClosed = dateClosed;
+        this.dateAdded = System.currentTimeMillis()/1000L;
         this.title = title;
         this.description = description;
 
