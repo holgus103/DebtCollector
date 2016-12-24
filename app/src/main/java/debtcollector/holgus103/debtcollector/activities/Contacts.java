@@ -6,6 +6,7 @@ import android.database.Cursor;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListAdapter;
 import android.widget.ListView;
@@ -15,16 +16,16 @@ import debtcollector.holgus103.debtcollector.R;
 import debtcollector.holgus103.debtcollector.db.dao.ContactsDao;
 import debtcollector.holgus103.debtcollector.db.tables.ContactsTable;
 
-public class Contacts extends DebtCollectorActivity {
+public class Contacts extends DebtCollectorActivity implements AdapterView.OnItemClickListener {
     static final int PICK_CONTACT = 1;
     private ListView listView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_contacts);
-        this.addListeners();
         this.listView  = (ListView) findViewById(R.id.listView);
         this.loadContacts();
+        this.addListeners();
     }
 
     private void loadContacts() {
@@ -67,8 +68,18 @@ public class Contacts extends DebtCollectorActivity {
                 addContact();
             }
         });
+        this.listView.setOnItemClickListener(this);
 
     }
 
 
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        Cursor cursor = (Cursor)this.listView
+                .getAdapter()
+                .getItem(position);
+        this.startActivity(ContactDetails.class,
+                cursor.getString(cursor.getColumnIndex("_id"))
+        );
+    }
 }

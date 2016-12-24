@@ -24,6 +24,18 @@ public class TransactionDao {
     private String description;
     private Short settled;
 
+    public static final Cursor getUnsettledTransactionsForContactID(SQLiteDatabase db, String contactID){
+        return db.rawQuery("SELECT " +
+                TransactionTable.TRANSACTION_ID + " AS _id, " +
+                TransactionTable.AMOUNT + ", " +
+                TransactionTable.TITLE + ", " +
+                TransactionTable.SETTLED +
+                " FROM " + TransactionTable.class.getSimpleName() +
+                " WHERE " + TransactionTable.SETTLED + " != 1 " +
+                " AND " + TransactionTable.CONTACT_ID + " = " + contactID,
+                null
+        );
+    }
 
     public static final Cursor getRecentTransactions(SQLiteDatabase db){
         return db.rawQuery("SELECT " +

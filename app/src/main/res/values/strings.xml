@@ -17,4 +17,6 @@
     <string name="transaction_created">Created on:</string>
     <string name="transaction_closed">Settled on:</string>
     <string name="date_format">dd.MM.yyyy HH:mm</string>
+    <string name="balance_label">Balance:</string>
+    <string name="contact_label">Contact:</string>
 </resources>

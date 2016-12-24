@@ -16,6 +16,7 @@ import debtcollector.holgus103.debtcollector.db.DebtCollectorDBHelper;
  */
 public abstract class DebtCollectorActivity extends AppCompatActivity implements MenuItem.OnMenuItemClickListener{
     protected static final String ITEM_ID = "ITEM_ID";
+    protected static final String STRING_ID = "STRING_ID";
     protected static SQLiteDatabase database = null;
     private int selectedMenuItem;
 
@@ -77,6 +78,13 @@ public abstract class DebtCollectorActivity extends AppCompatActivity implements
         Intent intent = new Intent(this, cls);
         this.startActivity(intent);
     }
+
+    protected void startActivity(Class<?> cls, String itemId) {
+        Intent intent = new Intent(this, cls);
+        intent.putExtra(DebtCollectorActivity.ITEM_ID, itemId);
+        this.startActivity(intent);
+    }
+
     protected void startActivity(Class<?> cls, int itemId) {
         Intent intent = new Intent(this, cls);
         intent.putExtra(DebtCollectorActivity.ITEM_ID, itemId);
@@ -91,5 +99,9 @@ public abstract class DebtCollectorActivity extends AppCompatActivity implements
         catch(ClassCastException e){
             return "";
         }
+    }
+
+    protected void fillTextView(int id, String text){
+        ((TextView) this.findViewById(id)).setText(text);
     }
 }
