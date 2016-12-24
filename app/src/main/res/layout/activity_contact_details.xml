@@ -39,11 +39,15 @@
         android:layout_alignTop="@+id/balanceLabel"
         android:layout_alignParentEnd="true" />
 
-    <ListView
+
+
+    <fragment
         android:layout_marginTop="20dp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/contactTransactionsListView"
+        android:layout_width="match_parent"
+        android:layout_height="fill_parent"
+        android:name="debtcollector.holgus103.debtcollector.fragments.TransactionsView"
+        android:id="@+id/transactionsViewFragment"
         android:layout_alignParentStart="true"
         android:layout_below="@+id/balanceLabel" />
+
 </RelativeLayout>
