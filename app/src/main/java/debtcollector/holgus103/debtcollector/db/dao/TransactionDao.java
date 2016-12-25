@@ -129,6 +129,9 @@ public class TransactionDao extends BaseDao {
          return settled == 1 ? TransactionDao.TRANSACTION_SETTLED : TransactionDao.TRANSACTION_NOT_SETTLED;
     }
 
+    public boolean isSettled(){
+        return settled == 1;
+    }
     public String getContactID() {
         return contactID;
     }

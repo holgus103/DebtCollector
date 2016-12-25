@@ -16,4 +16,11 @@
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         />
+    <!--<fragment-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent"-->
+        <!--android:name="debtcollector.holgus103.debtcollector.fragments.TransactionsView"-->
+        <!--android:id="@+id/transactionsViewFragment"-->
+        <!--android:layout_alignParentStart="true"-->
+ <!--/>-->
 </RelativeLayout>

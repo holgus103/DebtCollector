@@ -1,7 +1,8 @@
 package debtcollector.holgus103.debtcollector.activities;
 
 import android.os.Bundle;
-import android.widget.TextView;
+import android.view.View;
+import android.widget.Button;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -10,7 +11,9 @@ import debtcollector.holgus103.debtcollector.R;
 import debtcollector.holgus103.debtcollector.db.dao.ContactsDao;
 import debtcollector.holgus103.debtcollector.db.dao.TransactionDao;
 
-public class TransactionDetails extends DebtCollectorActivity {
+public class TransactionDetails extends DebtCollectorActivity implements View.OnClickListener {
+
+    private TransactionDao model;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -18,9 +21,11 @@ public class TransactionDetails extends DebtCollectorActivity {
         setContentView(R.layout.activity_transaction_details);
         Bundle bundle = getIntent().getExtras();
         int id = bundle.getInt(DebtCollectorActivity.ITEM_ID);
-        TransactionDao model = new TransactionDao(id);
+        this.model = new TransactionDao(id);
 
         this.fillViewWithData(model);
+        ((Button)this.findViewById(R.id.markAsSettledButton)).setOnClickListener(this);
+
     }
 
     private void fillViewWithData(TransactionDao model){
@@ -45,8 +50,21 @@ public class TransactionDetails extends DebtCollectorActivity {
                 )
         );
 
+        if(model.isSettled()) {
+            this.disableButton();
+        }
 
     }
 
 
+    @Override
+    public void onClick(View v) {
+        this.model.markAsSettled();
+
+    }
+
+    private void disableButton(){
+            ((Button)this.findViewById(R.id.markAsSettledButton))
+                    .setEnabled(false);
+    }
 }

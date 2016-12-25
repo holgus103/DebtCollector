@@ -12,31 +12,24 @@ import android.widget.SimpleCursorAdapter;
 import debtcollector.holgus103.debtcollector.R;
 import debtcollector.holgus103.debtcollector.db.dao.TransactionDao;
 import debtcollector.holgus103.debtcollector.db.tables.TransactionTable;
+import debtcollector.holgus103.debtcollector.fragments.TransactionsView;
 
-public class Archive extends DebtCollectorActivity implements AdapterView.OnItemClickListener {
+public class Archive extends DebtCollectorActivity  {
 
-    private SimpleCursorAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_archive);
-        ListView listView = (ListView)this.findViewById(R.id.archivedTransactionsListView);
-        this.adapter = new SimpleCursorAdapter(this,
-                R.layout.simple_list_item,
-                TransactionDao.getResolvedTransactions(),
-                new String[] {TransactionTable.TITLE, TransactionTable.AMOUNT},
-                new int[] {R.id.nameView, R.id.balanceView}
-        );
-        listView.setAdapter(this.adapter);
 
-        listView.setOnItemClickListener(this);
+
+        ((TransactionsView)this.getFragmentManager().findFragmentById(R.id.transactionsViewFragment))
+                .setCursor(
+                        TransactionDao.getResolvedTransactions()
+                );
+
+
 
     }
 
-    @Override
-    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        Cursor cursor = (Cursor)this.adapter.getItem(position);
-        this.startActivity(TransactionDetails.class, cursor.getInt(cursor.getColumnIndex("_id")));
-    }
 }

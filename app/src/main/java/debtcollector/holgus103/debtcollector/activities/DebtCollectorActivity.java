@@ -71,18 +71,19 @@ public abstract class DebtCollectorActivity extends AppCompatActivity implements
         }
         return true;
     }
-    protected void startActivity(Class<?> cls){
+
+    public void startActivity(Class<?> cls){
         Intent intent = new Intent(this, cls);
         this.startActivity(intent);
     }
 
-    protected void startActivity(Class<?> cls, String itemId) {
+    public void startActivity(Class<?> cls, String itemId) {
         Intent intent = new Intent(this, cls);
         intent.putExtra(DebtCollectorActivity.ITEM_ID, itemId);
         this.startActivity(intent);
     }
 
-    protected void startActivity(Class<?> cls, int itemId) {
+    public void startActivity(Class<?> cls, int itemId) {
         Intent intent = new Intent(this, cls);
         intent.putExtra(DebtCollectorActivity.ITEM_ID, itemId);
         this.startActivity(intent);
