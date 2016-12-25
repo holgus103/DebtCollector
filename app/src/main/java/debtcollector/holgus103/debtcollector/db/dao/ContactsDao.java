@@ -72,7 +72,7 @@ public final class ContactsDao extends BaseDao{
         values.put(ContactsTable.CONTACT_ID, this.contactID);
         values.put(ContactsTable.BALANCE, this.balance);
         values.put(ContactsTable.DISPLAY_NAME, this.displayName);
-        getDatabase().insert(TransactionTable.class.getSimpleName(), null, values);
+        getDatabase().insert(ContactsTable.class.getSimpleName(), null, values);
     }
 
 
