@@ -108,6 +108,7 @@ public class TransactionDao extends BaseDao {
             this.description = cursor.getString(cursor.getColumnIndex(TransactionTable.DESCRIPTION));
             this.settled = cursor.getShort(cursor.getColumnIndex(TransactionTable.SETTLED));
         }
+        cursor.close();
     }
 
     public final void insert(){

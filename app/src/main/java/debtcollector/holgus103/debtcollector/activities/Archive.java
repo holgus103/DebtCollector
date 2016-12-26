@@ -14,22 +14,26 @@ import debtcollector.holgus103.debtcollector.db.dao.TransactionDao;
 import debtcollector.holgus103.debtcollector.db.tables.TransactionTable;
 import debtcollector.holgus103.debtcollector.fragments.TransactionsView;
 
-public class Archive extends DebtCollectorActivity  {
+public class Archive extends DebtCollectorMenuActivity  {
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_archive);
+        this.loadData();
 
 
-        ((TransactionsView)this.getFragmentManager().findFragmentById(R.id.transactionsViewFragment))
-                .setCursor(
-                        TransactionDao.getResolvedTransactions()
-                );
 
 
 
     }
 
+    @Override
+    protected void loadData() {
+        ((TransactionsView)this.getFragmentManager().findFragmentById(R.id.transactionsViewFragment))
+                .setCursor(
+                        TransactionDao.getResolvedTransactions()
+                );
+    }
 }

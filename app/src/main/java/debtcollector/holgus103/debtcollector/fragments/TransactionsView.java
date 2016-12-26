@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.CursorAdapter;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
@@ -24,8 +25,9 @@ import debtcollector.holgus103.debtcollector.db.tables.TransactionTable;
  * Created by Kuba on 24/12/2016.
  */
 public class TransactionsView extends Fragment implements AdapterView.OnItemClickListener {
-    private ListAdapter adapter;
+    private CursorAdapter adapter;
     private DebtCollectorActivity parent;
+    private ListView listView;
 
     @Nullable
     @Override
@@ -45,17 +47,26 @@ public class TransactionsView extends Fragment implements AdapterView.OnItemClic
         }
     }
 
-    public void setCursor(Cursor cursor){
-        this.adapter = new SimpleCursorAdapter(getActivity(),
-                R.layout.simple_list_item,
-                cursor,
-                new String[] {TransactionTable.TITLE, TransactionTable.AMOUNT},
-                new int[] {R.id.nameView, R.id.balanceView}
-        );
 
-        ListView listView = (ListView) this.getView().findViewById(R.id.transactionsView);
-        listView.setAdapter(this.adapter);
-        listView.setOnItemClickListener(this);
+    public void setCursor(Cursor cursor){
+        if(this.adapter == null) {
+            this.adapter = new SimpleCursorAdapter(getActivity(),
+                    R.layout.simple_list_item,
+                    cursor,
+                    new String[]{TransactionTable.TITLE, TransactionTable.AMOUNT},
+                    new int[]{R.id.nameView, R.id.balanceView}
+            );
+            this.listView = (ListView) this.getView().findViewById(R.id.transactionsView);
+            this.listView.setOnItemClickListener(this);
+        }
+        else{
+            Cursor old = this.adapter.swapCursor(cursor);
+            this.adapter.notifyDataSetChanged();
+            old.close();
+        }
+
+        this.listView.setAdapter(this.adapter);
+
     }
 
     @Override

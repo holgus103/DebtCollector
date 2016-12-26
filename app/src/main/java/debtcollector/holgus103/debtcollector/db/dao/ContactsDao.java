@@ -51,6 +51,7 @@ public final class ContactsDao extends BaseDao{
             this.balance = cursor.getDouble(cursor.getColumnIndex(ContactsTable.BALANCE));
             this.displayName = cursor.getString(cursor.getColumnIndex(ContactsTable.DISPLAY_NAME));
         }
+        cursor.close();
     }
 
     public ContactsDao(String contactID, String displayName){

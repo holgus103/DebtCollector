@@ -20,29 +20,33 @@ import debtcollector.holgus103.debtcollector.db.tables.ContactsTable;
 import debtcollector.holgus103.debtcollector.db.tables.TransactionTable;
 import debtcollector.holgus103.debtcollector.dialogs.DebtSettledDialog;
 
-public class Recent extends DebtCollectorActivity implements DebtSettledDialog.IDebtSettledDialogListener, AdapterView.OnItemClickListener {
+public class Recent extends DebtCollectorMenuActivity implements DebtSettledDialog.IDebtSettledDialogListener, AdapterView.OnItemClickListener {
 
     // save settled transactions to avoid countless reloads
     Set<Integer> settledTransactions = new HashSet<>();
     private Integer clickedTransactionID;
     private SimpleCursorAdapter adapter;
+    private ListView listView;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-//        this.
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_recent);
-
-        ListView listView = (ListView)this.findViewById(R.id.recentTransactionsListView);
+        this.listView  = (ListView)this.findViewById(R.id.recentTransactionsListView);
         this.adapter = new SimpleCursorAdapter(this,
                 R.layout.simple_list_item,
                 TransactionDao.getRecentTransactions(),
                 new String[] {TransactionTable.TITLE, TransactionTable.AMOUNT},
                 new int[] {R.id.nameView, R.id.balanceView}
         );
-        listView.setAdapter(adapter);
-
-
+        this.listView.setAdapter(this.adapter);
         listView.setOnItemClickListener(this);
+    }
+
+    protected void loadData(){
+        Cursor cursor = this.adapter.swapCursor(TransactionDao.getRecentTransactions());
+        this.adapter.notifyDataSetChanged();
+        cursor.close();
     }
 
     @Override
@@ -50,8 +54,7 @@ public class Recent extends DebtCollectorActivity implements DebtSettledDialog.I
         TransactionDao transaction = new TransactionDao(this.clickedTransactionID);
         transaction.markAsSettled();
         this.settledTransactions.add(this.clickedTransactionID);
-        this.adapter.getCursor().requery();
-        this.adapter.notifyDataSetChanged();
+        this.loadData();
     }
 
     @Override

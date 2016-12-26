@@ -16,25 +16,33 @@ import debtcollector.holgus103.debtcollector.fragments.TransactionsView;
 public class ContactDetails extends DebtCollectorActivity {
 
 
+    private String contactID;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_contact_details);
         Bundle bundle = this.getIntent().getExtras();
-        String id = bundle.getString(DebtCollectorActivity.ITEM_ID);
-        ContactsDao model = new ContactsDao(id);
+        this.contactID = bundle.getString(DebtCollectorActivity.ITEM_ID);
+        this.loadData();
+
+
+    }
+
+
+    private void fillViewWithData(ContactsDao model) {
+        this.fillTextView(R.id.balanceTextView, model.getBalance().toString());
+        this.fillTextView(R.id.contactNameTextView, model.getDisplayName().toString());
+    }
+
+    @Override
+    protected void loadData(){
+        ContactsDao model = new ContactsDao(this.contactID);
         this.fillViewWithData(model);
 
 
         ((TransactionsView)getFragmentManager().findFragmentById(R.id.transactionsViewFragment))
                 .setCursor(
-                    TransactionDao.getUnsettledTransactionsForContactID(model.getContactID())
+                        TransactionDao.getUnsettledTransactionsForContactID(model.getContactID())
                 );
-
-    }
-
-    private void fillViewWithData(ContactsDao model) {
-        this.fillTextView(R.id.balanceTextView, model.getBalance().toString());
-        this.fillTextView(R.id.contactNameTextView, model.getDisplayName().toString());
     }
 }

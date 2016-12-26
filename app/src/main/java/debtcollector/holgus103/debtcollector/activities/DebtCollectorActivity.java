@@ -17,20 +17,9 @@ import debtcollector.holgus103.debtcollector.db.DebtCollectorDBHelper;
 public abstract class DebtCollectorActivity extends AppCompatActivity implements MenuItem.OnMenuItemClickListener{
     protected static final String ITEM_ID = "ITEM_ID";
     protected static final String STRING_ID = "STRING_ID";
-    private int selectedMenuItem;
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState){
-        super.onCreate(savedInstanceState);
-        Bundle bundle = getIntent().getExtras();
 
-        if(bundle != null) {
-            this.selectedMenuItem = bundle.getInt(DebtCollectorActivity.ITEM_ID);
-        }
-        else{
-            this.selectedMenuItem = R.id.contacts;
-        }
-    }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu){
@@ -43,14 +32,19 @@ public abstract class DebtCollectorActivity extends AppCompatActivity implements
         for(MenuItem item:items){
             item.setShowAsAction(MenuItem.SHOW_AS_ACTION_NEVER);
             item.setOnMenuItemClickListener(this);
-            if(item.getItemId() == this.selectedMenuItem)
-                item.setEnabled(false);
         }
 
 
         return super.onCreateOptionsMenu(menu);
     }
 
+    @Override
+    protected void onResume(){
+        super.onResume();
+        this.loadData();
+    }
+
+    protected abstract void loadData();
 
     @Override
     public boolean onMenuItemClick(MenuItem item) {

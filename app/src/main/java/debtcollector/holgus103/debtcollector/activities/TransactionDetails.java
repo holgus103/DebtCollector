@@ -14,16 +14,15 @@ import debtcollector.holgus103.debtcollector.db.dao.TransactionDao;
 public class TransactionDetails extends DebtCollectorActivity implements View.OnClickListener {
 
     private TransactionDao model;
+    private int transactionID;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_transaction_details);
         Bundle bundle = getIntent().getExtras();
-        int id = bundle.getInt(DebtCollectorActivity.ITEM_ID);
-        this.model = new TransactionDao(id);
-
-        this.fillViewWithData(model);
+        this.transactionID = bundle.getInt(DebtCollectorActivity.ITEM_ID);
+        this.loadData();
         ((Button)this.findViewById(R.id.markAsSettledButton)).setOnClickListener(this);
 
     }
@@ -59,12 +58,23 @@ public class TransactionDetails extends DebtCollectorActivity implements View.On
 
     @Override
     public void onClick(View v) {
-        this.model.markAsSettled();
-
+        if(!this.model.isSettled()) {
+            this.model.markAsSettled();
+            this.disableButton();
+            this.fillTextView(R.id.statusTextView, model.getSettled());
+        }
     }
 
     private void disableButton(){
-            ((Button)this.findViewById(R.id.markAsSettledButton))
-                    .setEnabled(false);
+            Button btn = (Button)this.findViewById(R.id.markAsSettledButton);
+            if(btn != null){
+                btn.setEnabled(false);
+            }
+    }
+
+    @Override
+    protected void loadData() {
+        this.model = new TransactionDao(this.transactionID);
+        this.fillViewWithData(model);
     }
 }
