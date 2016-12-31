@@ -7,6 +7,7 @@ import android.widget.AdapterView;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.SimpleCursorAdapter;
+import android.widget.Toast;
 
 import debtcollector.holgus103.debtcollector.R;
 import debtcollector.holgus103.debtcollector.db.dao.ContactsDao;
@@ -77,12 +78,15 @@ public class AddTransaction extends DebtCollectorMenuActivity implements Adapter
             amount = Double.parseDouble(AddTransaction.this.getStringFromView(R.id.amountEditText));
         }
         catch(NumberFormatException e){
-            //TODO: no amount specified
+            Toast toast = Toast.makeText(this, R.string.no_amount, Toast.LENGTH_LONG);
+            toast.show();
             return;
         }
         String title = AddTransaction.this.getStringFromView(R.id.titleEditText);
-        if(title == ""){
-            //TODO: no title specified
+        if(title == null || title.length() == 0){
+            Toast toast = Toast.makeText(this, R.string.no_title, Toast.LENGTH_LONG);
+            toast.show();
+            return;
         }
         TransactionDao transaction = new TransactionDao(
                 AddTransaction.this.contactID,
