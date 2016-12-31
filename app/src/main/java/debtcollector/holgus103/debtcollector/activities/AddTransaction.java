@@ -40,6 +40,7 @@ public class AddTransaction extends DebtCollectorMenuActivity implements Adapter
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_transaction);
+        Bundle bundle = this.getIntent().getExtras();
         this.autoTextView = (AutoCompleteTextView)this.findViewById(R.id.contactSelectAutoComplete);
         this.addActionListeners();
 
@@ -52,8 +53,14 @@ public class AddTransaction extends DebtCollectorMenuActivity implements Adapter
         );
 
         this.adapter.setCursorToStringConverter(new ContactsDao.CursorToStringConverter());
-        autoTextView.setAdapter(adapter);
+        this.autoTextView.setAdapter(adapter);
 
+        String contactID = bundle.getString(DebtCollectorActivity.CONTACT_ID);
+        if(contactID != null){
+            ContactsDao contact = new ContactsDao(contactID);
+            this.autoTextView.setText(contact.getDisplayName());
+            this.contactID = contactID;
+        }
 
     }
 

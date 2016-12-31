@@ -1,6 +1,7 @@
 package debtcollector.holgus103.debtcollector.activities;
 
 import android.app.Fragment;
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.ListAdapter;
@@ -44,5 +45,15 @@ public class ContactDetails extends DebtCollectorActivity {
                 .setCursor(
                         TransactionDao.getUnsettledTransactionsForContactID(model.getContactID())
                 );
+    }
+
+    @Override
+    public void startActivity(Class<?> cls, int itemId) {
+        Intent intent = new Intent(this, cls);
+        if(cls == AddTransaction.class){
+            intent.putExtra(DebtCollectorActivity.CONTACT_ID, this.contactID);
+        }
+        intent.putExtra(DebtCollectorActivity.ITEM_ID, itemId);
+        this.startActivity(intent);
     }
 }
