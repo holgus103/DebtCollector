@@ -68,10 +68,15 @@
             android:id="@+id/titleEditText"
             android:layout_alignParentEnd="true" />
     </RelativeLayout>
+    <Spinner
+        android:layout_width="match_parent"
+        android:layout_below="@id/titlePanel"
+        android:id = "@+id/direction_spinner"
+        android:layout_height="60dp"></Spinner>
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/titlePanel"
+        android:layout_below="@+id/direction_spinner"
         android:text="@string/transaction_description"
         android:id="@+id/descriptionTextView"
         android:layout_alignParentStart="true" />
@@ -81,7 +86,7 @@
         android:inputType="textMultiLine"
         android:ems="10"
         android:id="@+id/descriptionTextEdit"
-        android:layout_below="@+id/titlePanel"
+        android:layout_below="@+id/direction_spinner"
         android:layout_alignEnd="@+id/saveBtn"
         android:layout_above="@+id/saveBtn" />
     <Button
