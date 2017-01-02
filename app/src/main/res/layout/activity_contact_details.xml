@@ -41,13 +41,38 @@
 
 
 
-    <fragment
-        android:layout_marginTop="20dp"
+    <LinearLayout
+        android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="fill_parent"
-        android:name="debtcollector.holgus103.debtcollector.fragments.TransactionsView"
-        android:id="@+id/transactionsViewFragment"
-        android:layout_alignParentStart="true"
-        android:layout_below="@+id/balanceLabel" />
+        android:layout_height="wrap_content"
+        android:id="@+id/debtTabsPanel"
+        android:layout_alignRight="@+id/contactNameTextView"
+        android:layout_alignEnd="@+id/contactNameTextView"
+        android:layout_below="@+id/balanceLabel">
 
+        <Button
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:id="@+id/debtBtn" />
+
+        <Button
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/creditBtn"
+
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true" />
+    </LinearLayout>
+
+
+    <fragment
+    android:layout_marginTop="20dp"
+    android:layout_width="match_parent"
+    android:layout_height="fill_parent"
+    android:name="debtcollector.holgus103.debtcollector.fragments.TransactionsView"
+    android:id="@+id/transactionsViewFragment"
+    android:layout_alignParentStart="true"
+    android:layout_below="@+id/debtTabsPanel" />
 </RelativeLayout>

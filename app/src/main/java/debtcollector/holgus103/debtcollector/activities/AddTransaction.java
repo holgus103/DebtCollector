@@ -18,15 +18,13 @@ import debtcollector.holgus103.debtcollector.R;
 import debtcollector.holgus103.debtcollector.db.dao.ContactsDao;
 import debtcollector.holgus103.debtcollector.db.dao.TransactionDao;
 import debtcollector.holgus103.debtcollector.db.tables.ContactsTable;
+import debtcollector.holgus103.debtcollector.enums.TransactionDirection;
 
 public class AddTransaction extends DebtCollectorMenuActivity implements AdapterView.OnItemClickListener, View.OnClickListener {
 
     private Spinner directionSpinner;
 
-    enum TransactionDirection{
-        TheyOweMe,
-        IOweThem
-    }
+
     private SimpleCursorAdapter adapter;
     private String contactID;
     private AutoCompleteTextView autoTextView;
@@ -82,7 +80,9 @@ public class AddTransaction extends DebtCollectorMenuActivity implements Adapter
     private void populateSpinner() {
         ArrayList<String> spinnerValues = new ArrayList<String>();
         for(TransactionDirection val:TransactionDirection.values()){
-            spinnerValues.add(val.toString().replaceAll("(?=\\p{Upper})", " "));
+            if(val != TransactionDirection.Both) {
+                spinnerValues.add(val.toString());
+            }
         }
 
         ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<String>(this, R.layout.simple_spinner_item, spinnerValues);
@@ -108,11 +108,8 @@ public class AddTransaction extends DebtCollectorMenuActivity implements Adapter
             return;
         }
 
-        TransactionDirection direction = TransactionDirection.valueOf(
-                ((String)this.directionSpinner
-                        .getSelectedItem()
-                ).replace(" ", "")
-        );
+        TransactionDirection direction = TransactionDirection
+                .getEnum((String)this.directionSpinner.getSelectedItem());
         // if user is the one taking the debt, increase the contacts credit
         if(direction == TransactionDirection.IOweThem){
             amount = (-1) * amount;

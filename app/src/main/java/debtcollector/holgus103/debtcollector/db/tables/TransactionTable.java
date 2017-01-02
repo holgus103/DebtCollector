@@ -8,6 +8,9 @@ import android.database.sqlite.SQLiteDatabase;
 public class TransactionTable {
     public static final String TRANSACTION_ID = "TRANSACTION_ID";
     public static final String CONTACT_ID = ContactsTable.CONTACT_ID;
+    /**
+     * 0 > contact is in debt, 0 < contact has credit
+     */
     public static final String AMOUNT = "AMOUNT";
     public static final String DATE_ADDED = "DATE_ADDED";
     public static final String DATE_CLOSED = "DATE_CLOSED";

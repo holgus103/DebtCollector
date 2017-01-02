@@ -7,6 +7,7 @@ import android.database.sqlite.SQLiteDatabase;
 
 import debtcollector.holgus103.debtcollector.db.tables.ContactsTable;
 import debtcollector.holgus103.debtcollector.db.tables.TransactionTable;
+import debtcollector.holgus103.debtcollector.enums.TransactionDirection;
 
 /**
  * Created by Kuba on 15/12/2016.
@@ -24,17 +25,23 @@ public class TransactionDao extends BaseDao {
     private String description;
     private Short settled;
 
-    public static final Cursor getUnsettledTransactionsForContactID(String contactID){
-        return getDatabase().rawQuery("SELECT " +
+    public static final Cursor getUnsettledTransactionsForContactID(String contactID, TransactionDirection direction){
+        String queryString = "SELECT " +
                 TransactionTable.TRANSACTION_ID + " AS _id, " +
                 TransactionTable.AMOUNT + ", " +
                 TransactionTable.TITLE + ", " +
                 TransactionTable.SETTLED +
                 " FROM " + TransactionTable.class.getSimpleName() +
                 " WHERE " + TransactionTable.SETTLED + " != 1 " +
-                " AND " + TransactionTable.CONTACT_ID + " = " + contactID,
-                null
-        );
+                " AND " + TransactionTable.CONTACT_ID + " = " + contactID;
+        if(direction == TransactionDirection.TheyOweMe){
+            queryString += " AND " + TransactionTable.AMOUNT + " >= 0";
+        }
+        else if(direction == TransactionDirection.IOweThem){
+            queryString += " AND " + TransactionTable.AMOUNT + " < 0";
+        }
+
+        return getDatabase().rawQuery(queryString, null);
     }
 
     public static final Cursor getRecentTransactions(){

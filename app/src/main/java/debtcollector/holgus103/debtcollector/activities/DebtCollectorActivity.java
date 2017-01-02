@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Button;
 import android.widget.TextView;
 
 import debtcollector.holgus103.debtcollector.R;
@@ -94,6 +95,9 @@ public abstract class DebtCollectorActivity extends AppCompatActivity implements
         }
     }
 
+    protected void setStringForView(int id, String value){
+        ((TextView) this.findViewById(id)).setText(value);
+    }
     protected void fillTextView(int id, String text){
         ((TextView) this.findViewById(id)).setText(text);
     }
