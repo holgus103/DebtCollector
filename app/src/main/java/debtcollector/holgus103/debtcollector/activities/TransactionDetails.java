@@ -44,9 +44,11 @@ public class TransactionDetails extends DebtCollectorActivity implements View.On
         );
 
         this.fillTextView(R.id.closedTextView,
+                model.isSettled() ?
                 format.format(
-                    new Date(model.getDateClosed() * 1000L)
-                )
+                    new Date( model.getDateClosed() * 1000L )
+                ) : ""
+
         );
 
         if(model.isSettled()) {

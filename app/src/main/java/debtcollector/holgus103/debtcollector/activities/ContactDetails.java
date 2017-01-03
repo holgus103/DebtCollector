@@ -60,7 +60,7 @@ public class ContactDetails extends DebtCollectorActivity implements View.OnClic
     @Override
     public void startActivity(Class<?> cls, int itemId) {
         Intent intent = new Intent(this, cls);
-        if(cls == AddTransaction.class){
+        if(cls == AddTransaction.class || cls == Archive.class){
             intent.putExtra(DebtCollectorActivity.CONTACT_ID, this.contactID);
         }
         intent.putExtra(DebtCollectorActivity.ITEM_ID, itemId);

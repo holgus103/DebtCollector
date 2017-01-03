@@ -57,17 +57,19 @@ public class TransactionDao extends BaseDao {
         );
     }
 
-    public static final Cursor getResolvedTransactions(){
-        return getDatabase().rawQuery("SELECT " +
-                        TransactionTable.TRANSACTION_ID + " AS _id, " +
-                        TransactionTable.AMOUNT + ", " +
-                        TransactionTable.TITLE + ", " +
-                        TransactionTable.SETTLED +
-                        " FROM " + TransactionTable.class.getSimpleName() +
-                        " WHERE " + TransactionTable.SETTLED + " = 1 " +
-                        " LIMIT 30",
-                null
-        );
+    public static final Cursor getResolvedTransactions(String contactID){
+        String query = "SELECT " +
+                TransactionTable.TRANSACTION_ID + " AS _id, " +
+                TransactionTable.AMOUNT + ", " +
+                TransactionTable.TITLE + ", " +
+                TransactionTable.SETTLED +
+                " FROM " + TransactionTable.class.getSimpleName() +
+                " WHERE " + TransactionTable.SETTLED + " = 1 ";
+        if(contactID != null){
+            query += " AND " + TransactionTable.CONTACT_ID + " = " + contactID;
+        }
+        query += " LIMIT 30";
+        return getDatabase().rawQuery(query, null);
     }
 
     public static final boolean isSettled(Cursor cursor){

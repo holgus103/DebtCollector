@@ -9,10 +9,22 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context=".activities.Archive">
 
+    <TextView
+        android:text=""
+        android:gravity="center"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:id="@+id/contactNameLbl" />
+
     <fragment
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="fill_parent"
         android:name="debtcollector.holgus103.debtcollector.fragments.TransactionsView"
         android:id="@+id/transactionsViewFragment"
+        android:layout_below="@id/contactNameLbl"
         android:layout_alignParentStart="true" />
+
+
 </RelativeLayout>
