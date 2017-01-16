@@ -21,4 +21,7 @@
     <string name="contact_label">Contact:</string>
     <string name="mark_as_settled">Mark as settled</string>
     <string name="history_for">History entries for:&#160;</string>
+    <string name="share">Share</string>
+    <string name="contact_details_share_message">"Hey, a DebtCollector user wants to remind you that you owe him "</string>
+    <string name="transaction_details_share_message">Hey, a DebtCollector user reminds you of your debt: &#160; </string>
 </resources>

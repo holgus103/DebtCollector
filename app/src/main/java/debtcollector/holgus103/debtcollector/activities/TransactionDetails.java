@@ -1,6 +1,8 @@
 package debtcollector.holgus103.debtcollector.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.widget.ShareActionProvider;
 import android.view.View;
 import android.widget.Button;
 
@@ -11,7 +13,7 @@ import debtcollector.holgus103.debtcollector.R;
 import debtcollector.holgus103.debtcollector.db.dao.ContactsDao;
 import debtcollector.holgus103.debtcollector.db.dao.TransactionDao;
 
-public class TransactionDetails extends DebtCollectorActivity implements View.OnClickListener {
+public class TransactionDetails extends ShareableActivity implements View.OnClickListener {
 
     private TransactionDao model;
     private int transactionID;
@@ -75,8 +77,16 @@ public class TransactionDetails extends DebtCollectorActivity implements View.On
     }
 
     @Override
+    protected Intent populateShareIntent(Intent intent) {
+        intent.putExtra(Intent.EXTRA_TEXT, getString(R.string.transaction_details_share_message) + this.model.getAmount() + " - " + this.model.getTitle());
+        intent.setType("text/plain");
+        return intent;
+    }
+
+    @Override
     protected void loadData() {
         this.model = new TransactionDao(this.transactionID);
         this.fillViewWithData(model);
+        super.loadData();
     }
 }

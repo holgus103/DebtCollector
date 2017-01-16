@@ -9,6 +9,9 @@ import android.view.MenuItem;
 import android.widget.Button;
 import android.widget.TextView;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import debtcollector.holgus103.debtcollector.R;
 import debtcollector.holgus103.debtcollector.db.DebtCollectorDBHelper;
 
@@ -25,11 +28,11 @@ public abstract class DebtCollectorActivity extends AppCompatActivity implements
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu){
-        MenuItem[] items = new MenuItem[4];
-        items[0] = menu.add(0, R.id.add_transaction, 0, R.string.add_transaction);
-        items[1] = menu.add(0, R.id.contacts, 0, R.string.contacts);
-        items[2] = menu.add(0, R.id.recent, 0, R.string.recent);
-        items[3] = menu.add(0, R.id.archive, 0, R.string.archive);
+        List<MenuItem> items = new ArrayList<MenuItem>();
+        items.add(menu.add(0, R.id.add_transaction, 0, R.string.add_transaction));
+        items.add(menu.add(0, R.id.contacts, 0, R.string.contacts));
+        items.add(menu.add(0, R.id.recent, 0, R.string.recent));
+        items.add(menu.add(0, R.id.archive, 0, R.string.archive));
 
         for(MenuItem item:items){
             item.setShowAsAction(MenuItem.SHOW_AS_ACTION_NEVER);

@@ -2,8 +2,12 @@ package debtcollector.holgus103.debtcollector.activities;
 
 import android.app.Fragment;
 import android.content.Intent;
+import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.ShareActionProvider;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ListAdapter;
@@ -17,10 +21,13 @@ import debtcollector.holgus103.debtcollector.db.tables.TransactionTable;
 import debtcollector.holgus103.debtcollector.enums.TransactionDirection;
 import debtcollector.holgus103.debtcollector.fragments.TransactionsView;
 
-public class ContactDetails extends DebtCollectorActivity implements View.OnClickListener {
+public class ContactDetails extends ShareableActivity implements View.OnClickListener {
 
     private String contactID;
     private TransactionDirection currentTab;
+    private ShareActionProvider shareActionProvider;
+    private ContactsDao model;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,17 +52,29 @@ public class ContactDetails extends DebtCollectorActivity implements View.OnClic
         this.fillTextView(R.id.contactNameTextView, model.getDisplayName().toString());
     }
 
+
     @Override
-    protected void loadData(){
-        ContactsDao model = new ContactsDao(this.contactID);
-        this.fillViewWithData(model);
+    protected Intent populateShareIntent(Intent intent) {
+        intent.putExtra(Intent.EXTRA_TEXT, getString(R.string.contact_details_share_message) + this.model.getBalance());
+        intent.setType("text/plain");
+        return intent;
+    }
 
 
+    private void reloadTransactions(){
         ((TransactionsView)getFragmentManager().findFragmentById(R.id.transactionsViewFragment))
                 .setCursor(
-                        TransactionDao.getUnsettledTransactionsForContactID(model.getContactID(), this.currentTab)
+                        TransactionDao.getUnsettledTransactionsForContactID(this.model.getContactID(), this.currentTab)
                 );
     }
+    @Override
+    protected void loadData(){
+        this.model = new ContactsDao(this.contactID);
+        this.fillViewWithData(this.model);
+        this.reloadTransactions();
+        super.loadData();
+    }
+
 
     @Override
     public void startActivity(Class<?> cls, int itemId) {
@@ -67,16 +86,19 @@ public class ContactDetails extends DebtCollectorActivity implements View.OnClic
         this.startActivity(intent);
     }
 
+
+
+
     @Override
     public void onClick(View v) {
         switch(v.getId()){
             case R.id.debtBtn:
                 this.currentTab = TransactionDirection.TheyOweMe;
-                this.loadData();
+                this.reloadTransactions();
                 break;
             case R.id.creditBtn:
                 this.currentTab = TransactionDirection.IOweThem;
-                this.loadData();
+                this.reloadTransactions();
                 break;
 
         }
