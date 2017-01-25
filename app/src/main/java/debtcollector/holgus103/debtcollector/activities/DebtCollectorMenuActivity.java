@@ -2,6 +2,7 @@ package debtcollector.holgus103.debtcollector.activities;
 
 import android.os.Bundle;
 import android.view.Menu;
+import android.view.MenuItem;
 
 import debtcollector.holgus103.debtcollector.R;
 
@@ -18,7 +19,7 @@ public abstract class DebtCollectorMenuActivity extends DebtCollectorActivity {
         if(bundle != null) {
             this.selectedMenuItem = bundle.getInt(DebtCollectorActivity.ITEM_ID);
         }
-        else{
+        if(this.selectedMenuItem == 0){
             this.selectedMenuItem = R.id.contacts;
         }
     }
@@ -27,8 +28,12 @@ public abstract class DebtCollectorMenuActivity extends DebtCollectorActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         // super builds menu
         boolean res = super.onCreateOptionsMenu(menu);
-        if(res)
-            menu.findItem(this.selectedMenuItem).setEnabled(false);
+        if(res) {
+            MenuItem item = menu.findItem(this.selectedMenuItem);
+            if(item != null){
+                item.setEnabled(false);
+            }
+        }
         return res;
     }
 }
