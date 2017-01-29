@@ -1,7 +1,10 @@
 package debtcollector.holgus103.debtcollector.activities;
 
+import android.content.ContentResolver;
+import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.provider.ContactsContract;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -22,22 +25,58 @@ import debtcollector.holgus103.debtcollector.db.tables.ContactsTable;
 import debtcollector.holgus103.debtcollector.enums.TransactionDirection;
 
 public class AddTransaction extends DebtCollectorMenuActivity implements AdapterView.OnItemClickListener, View.OnClickListener {
-
+    static final int PICK_CONTACT = 1;
     private Spinner directionSpinner;
 
 
     private SimpleCursorAdapter adapter;
     private String contactID;
     private AutoCompleteTextView autoTextView;
+    private ContactsDao model;
 
 
+    private void handleAddTransactionClick(){
+        double amount;
+        try {
+            amount = Math.abs(Double.parseDouble(AddTransaction.this.getStringFromView(R.id.amountEditText)));
+        }
+        catch(NumberFormatException e) {
+            Toast toast = Toast.makeText(this, R.string.no_amount, Toast.LENGTH_LONG);
+            toast.show();
+            return;
+        }
+
+        TransactionDirection direction = TransactionDirection
+                .getEnum((String)this.directionSpinner.getSelectedItem());
+        // if user is the one taking the debt, increase the contacts credit
+        if(direction == TransactionDirection.IOweThem){
+            amount = (-1) * amount;
+        }
+        String title = AddTransaction.this.getStringFromView(R.id.titleEditText);
+        if(title == null || title.length() == 0){
+            Toast toast = Toast.makeText(this, R.string.no_title, Toast.LENGTH_LONG);
+            toast.show();
+            return;
+        }
+        if(contactID == null) {
+            this.model.insert();
+            this.contactID = this.model.getContactID();
+        }
+        TransactionDao transaction = new TransactionDao(
+                AddTransaction.this.contactID,
+                amount,
+                title,
+                AddTransaction.this.getStringFromView(R.id.descriptionTextEdit)
+        );
+
+        transaction.insert();
+        AddTransaction.this.startActivity(Recent.class, R.id.recent);
+    }
     private void addActionListeners() {
 
+        ((Button)this.findViewById(R.id.add_contact_btn)).setOnClickListener(this);
         this.autoTextView.setOnItemClickListener(this);
-        Button btn = (Button)this.findViewById(R.id.saveBtn);
-        if(btn != null){
-            btn.setOnClickListener(this);
-        }
+        ((Button)this.findViewById(R.id.saveBtn)).setOnClickListener(this);
     }
 
     @Override
@@ -93,41 +132,47 @@ public class AddTransaction extends DebtCollectorMenuActivity implements Adapter
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         Cursor obj = (Cursor)adapter.getItem(position);
-        AddTransaction.this.contactID = obj.getString(obj.getColumnIndex("_id"));
+        this.contactID = obj.getString(obj.getColumnIndex("_id"));
     }
 
     @Override
     public void onClick(View v) {
-        double amount;
-        try {
-            amount = Math.abs(Double.parseDouble(AddTransaction.this.getStringFromView(R.id.amountEditText)));
-        }
-        catch(NumberFormatException e) {
-            Toast toast = Toast.makeText(this, R.string.no_amount, Toast.LENGTH_LONG);
-            toast.show();
-            return;
+        switch(v.getId()) {
+            case R.id.saveBtn:
+                this.handleAddTransactionClick();
+                break;
+            case R.id.add_contact_btn:
+                startActivityForResult(new Intent(Intent.ACTION_PICK, ContactsContract.Contacts.CONTENT_URI), AddTransaction.PICK_CONTACT);
+                break;
         }
 
-        TransactionDirection direction = TransactionDirection
-                .getEnum((String)this.directionSpinner.getSelectedItem());
-        // if user is the one taking the debt, increase the contacts credit
-        if(direction == TransactionDirection.IOweThem){
-            amount = (-1) * amount;
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data){
+        if(requestCode == AddTransaction.PICK_CONTACT){
+            if(resultCode == RESULT_OK){
+                ContentResolver resolver = getContentResolver();
+                if(resolver == null){
+                    return;
+                }
+                Cursor cursor = resolver.query(data.getData(), null, null, null, null);
+                if(cursor == null){
+                    return;
+                }
+                if(cursor.moveToFirst()){
+                     this.model = new ContactsDao(
+                            cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts._ID)),
+                            cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME))
+                    );
+                    this.contactID = null;
+                    this.autoTextView.setAdapter(null);
+                    this.autoTextView.setText(this.model.getDisplayName());
+                    this.autoTextView.setAdapter(this.adapter);
+                }
+                cursor.close();
+            }
         }
-        String title = AddTransaction.this.getStringFromView(R.id.titleEditText);
-        if(title == null || title.length() == 0){
-            Toast toast = Toast.makeText(this, R.string.no_title, Toast.LENGTH_LONG);
-            toast.show();
-            return;
-        }
-        TransactionDao transaction = new TransactionDao(
-                AddTransaction.this.contactID,
-                amount,
-                title,
-                AddTransaction.this.getStringFromView(R.id.descriptionTextEdit)
-        );
-        transaction.insert();
-        AddTransaction.this.startActivity(Recent.class, R.id.recent);
     }
 
 }

@@ -3,6 +3,7 @@ package debtcollector.holgus103.debtcollector.activities;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -24,7 +25,11 @@ public abstract class DebtCollectorActivity extends AppCompatActivity implements
     protected static final String CONTACT_ID = "CONTACT_ID";
 
 
-
+    @Override
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setTitle(this.getClass().getSimpleName().replaceAll("(?=\\p{Upper})", " "));
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu){

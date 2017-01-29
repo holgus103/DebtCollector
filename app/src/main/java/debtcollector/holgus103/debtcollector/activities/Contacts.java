@@ -19,7 +19,6 @@ import debtcollector.holgus103.debtcollector.db.dao.ContactsDao;
 import debtcollector.holgus103.debtcollector.db.tables.ContactsTable;
 
 public class Contacts extends DebtCollectorMenuActivity implements AdapterView.OnItemClickListener, View.OnClickListener {
-    static final int PICK_CONTACT = 1;
     private ListView listView;
     private CursorAdapter adapter;
 
@@ -32,7 +31,8 @@ public class Contacts extends DebtCollectorMenuActivity implements AdapterView.O
                 R.layout.simple_list_item,
                 ContactsDao.getContacts(),
                 new String[] {ContactsTable.DISPLAY_NAME, ContactsTable.BALANCE},
-                new int[] {R.id.nameView, R.id.balanceView}
+                new int[] {R.id.nameView, R.id.balanceView},
+                0
         );
         this.listView.setAdapter(this.adapter);
         this.addListeners();
@@ -46,37 +46,11 @@ public class Contacts extends DebtCollectorMenuActivity implements AdapterView.O
 
     }
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data){
-        if(requestCode == Contacts.PICK_CONTACT){
-            if(resultCode == RESULT_OK){
-                ContentResolver resolver = getContentResolver();
-                if(resolver == null){
-                    return;
-                }
-                Cursor cursor = resolver.query(data.getData(), null, null, null, null);
-                if(cursor == null){
-                    return;
-                }
-                if(cursor.moveToFirst()){
-                    ContactsDao model = new ContactsDao(
-                            cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts._ID)),
-                            cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME))
-                    );
-                    model.insert();
-                }
-                cursor.close();
-                this.loadData();
-            }
-        }
-    }
+
 
     private void addListeners(){
-        Button btn = (Button)this.findViewById(R.id.add_contact_btn);
-        if(btn != null) {
-            btn.setOnClickListener(this);
-        }
         this.listView.setOnItemClickListener(this);
+        ((Button)this.findViewById(R.id.add_transaction_btn)).setOnClickListener(this);
 
     }
 
@@ -91,8 +65,9 @@ public class Contacts extends DebtCollectorMenuActivity implements AdapterView.O
         );
     }
 
+
     @Override
     public void onClick(View v) {
-        startActivityForResult(new Intent(Intent.ACTION_PICK, ContactsContract.Contacts.CONTENT_URI), PICK_CONTACT);
+        this.startActivity(AddTransaction.class, R.id.add_transaction);
     }
 }
