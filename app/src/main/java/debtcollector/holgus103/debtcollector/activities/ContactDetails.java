@@ -44,6 +44,7 @@ public class ContactDetails extends ShareableActivity implements View.OnClickLis
     private void assignListeners() {
         ((Button) this.findViewById(R.id.debtBtn)).setOnClickListener(this);
         ((Button) this.findViewById(R.id.creditBtn)).setOnClickListener(this);
+        ((Button) this.findViewById(R.id.add_transaction_btn)).setOnClickListener(this);
     }
 
 
@@ -100,7 +101,9 @@ public class ContactDetails extends ShareableActivity implements View.OnClickLis
                 this.currentTab = TransactionDirection.IOweThem;
                 this.reloadTransactions();
                 break;
-
+            case R.id.add_transaction_btn:
+                this.startActivity(AddTransaction.class, R.id.add_transaction);
+                break;
         }
     }
 }

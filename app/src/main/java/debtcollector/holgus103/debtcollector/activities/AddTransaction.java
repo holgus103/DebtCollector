@@ -7,6 +7,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
+import android.widget.FilterQueryProvider;
 import android.widget.SimpleCursorAdapter;
 import android.widget.Spinner;
 import android.widget.Toast;
@@ -60,21 +61,20 @@ public class AddTransaction extends DebtCollectorMenuActivity implements Adapter
                 R.layout.dropdown_item,
                 ContactsDao.getContacts(),
                 new String[] {ContactsTable.DISPLAY_NAME},
-                new int[] {R.id.nameView}
+                new int[] {R.id.nameView},
+                0
         );
 
         this.adapter.setCursorToStringConverter(new ContactsDao.CursorToStringConverter());
-        this.autoTextView.setAdapter(adapter);
-
-
-
         String contactID = bundle.getString(DebtCollectorActivity.CONTACT_ID);
+
         if(contactID != null){
+
             ContactsDao contact = new ContactsDao(contactID);
             this.autoTextView.setText(contact.getDisplayName());
             this.contactID = contactID;
         }
-
+        this.autoTextView.setAdapter(adapter);
     }
 
     private void populateSpinner() {

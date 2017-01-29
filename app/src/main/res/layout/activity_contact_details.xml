@@ -75,4 +75,16 @@
     android:id="@+id/transactionsViewFragment"
     android:layout_alignParentStart="true"
     android:layout_below="@+id/debtTabsPanel" />
+
+    <Button
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:text="+"
+        android:textColor="@color/colorWhite"
+        android:background="@drawable/round_button"
+        android:id="@+id/add_transaction_btn"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginRight="20dp"
+        android:layout_marginBottom="41dp" />
 </RelativeLayout>
