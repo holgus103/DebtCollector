@@ -60,6 +60,12 @@ public final class ContactsDao extends BaseDao{
         this.balance = 0.0;
     }
 
+    public static boolean checkIfExists(String contactID) {
+        return getDatabase()
+                .rawQuery("SELECT * FROM " + ContactsTable.class.getSimpleName() + " WHERE " + ContactsTable.CONTACT_ID + " = " + contactID, null)
+                .getCount() > 0;
+    }
+
     public final static Cursor getContacts(){
         return getDatabase().rawQuery("SELECT " + ContactsTable.CONTACT_ID + " AS _id, " +
         ContactsTable.BALANCE + ", " +

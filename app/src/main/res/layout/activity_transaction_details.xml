@@ -15,7 +15,8 @@
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:id="@+id/transactionTitleTextView"
         android:layout_alignParentTop="true"
-        android:layout_alignParentEnd="true" />
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -23,7 +24,8 @@
         android:id="@+id/contactTextView"
         android:layout_below="@+id/transactionTitleTextView"
         android:layout_alignEnd="@+id/transactionTitleTextView"
-        android:layout_marginTop="33dp" />
+        android:layout_marginTop="33dp"
+        android:layout_alignRight="@+id/transactionTitleTextView" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -31,28 +33,32 @@
         android:id="@+id/addedTextView"
         android:layout_marginTop="32dp"
         android:layout_below="@+id/contactTextView"
-        android:layout_alignEnd="@+id/contactTextView" />
+        android:layout_alignEnd="@+id/contactTextView"
+        android:layout_alignRight="@+id/contactTextView" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/closedTextView"
         android:layout_below="@+id/addedTextView"
-        android:layout_alignParentEnd="true" />
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/statusTextView"
         android:layout_below="@+id/contactTextView"
-        android:layout_alignParentEnd="true" />
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/descriptionTextView"
         android:layout_centerVertical="true"
-        android:layout_alignEnd="@+id/addedTextView" />
+        android:layout_alignEnd="@+id/addedTextView"
+        android:layout_alignRight="@+id/addedTextView" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -61,7 +67,8 @@
         android:text="@string/transaction_title"
         android:id="@+id/textView7"
         android:layout_alignParentTop="true"
-        android:layout_alignParentStart="true" />
+        android:layout_alignParentStart="true"
+        android:layout_alignParentLeft="true" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -69,7 +76,8 @@
         android:text="@string/transation_contact"
         android:id="@+id/textView8"
         android:layout_above="@+id/addedTextView"
-        android:layout_alignParentStart="true" />
+        android:layout_alignParentStart="true"
+        android:layout_alignParentLeft="true" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -77,7 +85,8 @@
         android:text="@string/transaction_status"
         android:id="@+id/textView9"
         android:layout_below="@+id/textView8"
-        android:layout_alignParentStart="true" />
+        android:layout_alignParentStart="true"
+        android:layout_alignParentLeft="true" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -85,7 +94,8 @@
         android:text="@string/transaction_created"
         android:id="@+id/textView10"
         android:layout_alignTop="@+id/addedTextView"
-        android:layout_alignParentStart="true" />
+        android:layout_alignParentStart="true"
+        android:layout_alignParentLeft="true" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -102,7 +112,8 @@
         android:text="@string/transaction_description"
         android:id="@+id/textView12"
         android:layout_centerVertical="true"
-        android:layout_alignParentStart="true" />
+        android:layout_alignParentStart="true"
+        android:layout_alignParentLeft="true" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -110,14 +121,16 @@
         android:text="@string/transaction_amount"
         android:id="@+id/textView"
         android:layout_below="@+id/textView11"
-        android:layout_alignParentStart="true" />
+        android:layout_alignParentStart="true"
+        android:layout_alignParentLeft="true" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/transactionAmountTextView"
         android:layout_alignTop="@+id/textView"
-        android:layout_alignEnd="@+id/closedTextView" />
+        android:layout_alignEnd="@+id/closedTextView"
+        android:layout_alignRight="@+id/closedTextView" />
 
     <Button
         android:layout_width="match_parent"
@@ -125,6 +138,7 @@
         android:text="@string/mark_as_settled"
         android:id="@+id/markAsSettledButton"
         android:layout_alignParentBottom="true"
-        android:layout_alignParentStart="true" />
+        android:layout_alignParentStart="true"
+        android:layout_alignParentLeft="true" />
 
 </RelativeLayout>

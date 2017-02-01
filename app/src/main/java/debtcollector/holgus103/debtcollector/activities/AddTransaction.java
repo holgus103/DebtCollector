@@ -161,13 +161,20 @@ public class AddTransaction extends DebtCollectorMenuActivity implements Adapter
                     return;
                 }
                 if(cursor.moveToFirst()){
-                     this.model = new ContactsDao(
-                            cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts._ID)),
-                            cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME))
-                    );
-                    this.contactID = null;
+                    String id = cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts._ID));
+                    String name = cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME));
+                    // existing entry - do not allow duplicates
+                    if(ContactsDao.checkIfExists(id)){
+                        this.contactID = id;
+                    }
+                    // new contact
+                    else {
+                        this.model = new ContactsDao(id,name);
+                        this.contactID = null;
+                    }
+
                     this.autoTextView.setAdapter(null);
-                    this.autoTextView.setText(this.model.getDisplayName());
+                    this.autoTextView.setText(name);
                     this.autoTextView.setAdapter(this.adapter);
                 }
                 cursor.close();

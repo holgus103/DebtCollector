@@ -24,7 +24,8 @@
         android:name="debtcollector.holgus103.debtcollector.fragments.TransactionsView"
         android:id="@+id/transactionsViewFragment"
         android:layout_below="@id/contactNameLbl"
-        android:layout_alignParentStart="true" />
+        android:layout_alignParentStart="true"
+        android:layout_alignParentLeft="true" />
 
 
 </RelativeLayout>

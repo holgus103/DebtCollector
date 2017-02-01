@@ -18,7 +18,8 @@
         android:text="@string/transation_contact"
         android:id="@+id/contactSelectTextView"
         android:layout_alignParentTop="true"
-        android:layout_alignParentStart="true" />
+        android:layout_alignParentStart="true"
+        android:layout_alignParentLeft="true" />
 
 
     <Button
@@ -31,7 +32,7 @@
         android:layout_marginTop="10dp"
         android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
-        />
+        android:layout_alignParentRight="true" />
 
         <AutoCompleteTextView
             android:layout_width="wrap_content"
@@ -52,7 +53,8 @@
         android:layout_height="wrap_content"
         android:text="@string/transaction_amount"
         android:id="@+id/amountTextView"
-        android:layout_alignParentStart="true" />
+        android:layout_alignParentStart="true"
+        android:layout_alignParentLeft="true" />
 
     <EditText
         android:layout_width="wrap_content"
@@ -61,7 +63,8 @@
         android:ems="10"
         android:layout_marginRight="20dp"
         android:id="@+id/amountEditText"
-        android:layout_alignParentEnd="true" />
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true" />
     </RelativeLayout>
     <RelativeLayout
         android:layout_width="match_parent"
@@ -73,7 +76,8 @@
             android:layout_height="wrap_content"
             android:text="@string/transaction_title"
             android:id="@+id/titleTextView"
-            android:layout_alignParentStart="true" />
+            android:layout_alignParentStart="true"
+            android:layout_alignParentLeft="true" />
 
         <EditText
             android:layout_width="wrap_content"
@@ -82,7 +86,8 @@
             android:ems="10"
             android:layout_marginRight="20dp"
             android:id="@+id/titleEditText"
-            android:layout_alignParentEnd="true" />
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true" />
     </RelativeLayout>
     <Spinner
         android:layout_width="match_parent"
@@ -95,7 +100,8 @@
         android:layout_below="@+id/direction_spinner"
         android:text="@string/transaction_description"
         android:id="@+id/descriptionTextView"
-        android:layout_alignParentStart="true" />
+        android:layout_alignParentStart="true"
+        android:layout_alignParentLeft="true" />
     <EditText
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -105,14 +111,16 @@
         android:id="@+id/descriptionTextEdit"
         android:layout_below="@+id/direction_spinner"
         android:layout_alignEnd="@+id/saveBtn"
-        android:layout_above="@+id/saveBtn" />
+        android:layout_above="@+id/saveBtn"
+        android:layout_alignRight="@+id/saveBtn" />
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/add_transaction_saveBtn"
         android:id="@+id/saveBtn"
         android:layout_alignParentBottom="true"
-        android:layout_alignParentEnd="true" />
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true" />
 
 
 </RelativeLayout>
