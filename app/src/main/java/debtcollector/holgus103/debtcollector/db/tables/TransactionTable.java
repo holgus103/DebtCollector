@@ -22,7 +22,7 @@ public class TransactionTable {
         db.execSQL("CREATE TABLE " + TransactionTable.class.getSimpleName() + "(" +
             TRANSACTION_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
             CONTACT_ID + " TEXT, " +
-            AMOUNT + " TEXT, " +
+            AMOUNT + " REAL, " +
             DATE_ADDED + " INTEGER, " +
             DATE_CLOSED + " INTEGER, " +
             TITLE + " TEXT, " +

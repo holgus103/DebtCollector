@@ -13,7 +13,7 @@ public final class ContactsTable {
     public final static void create(SQLiteDatabase db){
         db.execSQL("CREATE TABLE " + ContactsTable.class.getSimpleName() + "(" +
                 CONTACT_ID + " TEXT PRIMARY KEY, " +
-                BALANCE + " INT DEFAULT 0, " +
+                BALANCE + " REAL DEFAULT 0, " +
                 DISPLAY_NAME + " TEXT" +
                 ");"
         );
